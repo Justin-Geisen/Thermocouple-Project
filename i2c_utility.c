@@ -1,6 +1,3 @@
-// I2C Example
-// Jason Losh
-
 //-----------------------------------------------------------------------------
 // Hardware Target
 //-----------------------------------------------------------------------------
@@ -34,19 +31,21 @@
 #include "i2c0.h"
 #include "wait.h"
 
-
-/*
-PB2 SCL
-PB3 SDA
-
- */
-
 // Range of polled devices
 // 0 for general call, 1-3 for compatible i2c variants
 // 120-123 are for 10-bit address mode
 // 123-127 reserved
 #define MIN_I2C_ADD 0x08
 #define MAX_I2C_ADD 0x77
+
+
+/*
+
+PB2 SCL
+PB3 SDA
+
+ */
+
 
 //-----------------------------------------------------------------------------
 // Subroutines
@@ -563,119 +562,3 @@ int main(void)
 
     }
 }
-
-/*
-    while (true)
-    {
-        getsUart0(strInput, MAX_CHARS);
-        token = strtok(strInput, " \r\n");
-        ok = token != NULL;
-        valid = false;
-        regUsed = false;
-        if (strcmp(token, "write") == 0)
-        {
-            valid = true;
-            // Add
-            token = strtok(NULL, " ");
-            ok = ok && token != NULL;
-            add = asciiToUint8(token);
-            // Reg or Data
-            token = strtok(NULL, " ");
-            ok = ok && token != NULL;
-            arg = asciiToUint8(token);
-            // Optional Data
-            token = strtok(NULL, " \r\n");
-            // Determine if write add reg data or write add data
-            if (strlen(token) > 0)
-            {
-                reg = arg;
-                data = asciiToUint8(token);
-                regUsed = true;
-            }
-            else
-                data = arg;
-            if (ok)
-            {
-                if (regUsed)
-                {
-                    writeI2c0Register(add, reg, data);
-                    snprintf(str, sizeof(str), "Writing 0x%02"PRIX8" to address 0x%02"PRIX8", register 0x%02"PRIX8"\n", data, add, reg);
-                }
-                else
-                {
-                    writeI2c0Data(add, data);
-                    snprintf(str, sizeof(str), "Writing 0x%02"PRIX8" to address 0x%02"PRIX8"\n", data, add);
-                }
-                putsUart0(str);
-            }
-            else
-                putsUart0("Error in write command arguments\n");
-        }
-        if (strcmp(token, "read") == 0)
-        {
-            valid = true;
-            // Add
-            token = strtok(NULL, " ");
-            ok = ok && token != NULL;
-            add = asciiToUint8(token);
-            // Optional register
-            token = strtok(NULL, " \r\n");
-            // Determine if read add or read add reg
-            if (strlen(token) > 0)
-            {
-                reg = asciiToUint8(token);
-                regUsed = true;
-            }
-            if (ok)
-            {
-                if (regUsed)
-                {
-                    data = readI2c0Register(add, reg);
-                    snprintf(str, sizeof(str), "Read 0x%02hhX from address 0x%02"PRIX8", register 0x%02"PRIX8"\n", data, add, reg);
-                }
-                else
-                {
-                    data = readI2c0Data(add);
-                    snprintf(str, sizeof(str), "Read 0x%02"PRIX8" from address 0x%02"PRIX8"\n", data, add);
-                }
-                putsUart0(str);
-            }
-            else
-                putsUart0("Error in read command arguments\n");
-        }
-        if (strcmp(token, "poll") == 0)
-        {
-            valid = true;
-            found = false;
-            putsUart0("Devices found: ");
-            for (i = MIN_I2C_ADD; i <= MAX_I2C_ADD; i++)
-            {
-                if (pollI2c0Address(i))
-                {
-                    found = true;
-                    snprintf(str, sizeof(str), "0x%02"PRIX8" ", i);
-                    putsUart0(str);
-                }
-            }
-            if (!found)
-                putsUart0("(none)");
-            putsUart0("\n");
-        }
-        if (strcmp(token, "help") == 0)
-        {
-            valid = true;
-            putsUart0("Commands:\n");
-            putsUart0("    poll                  Poll devices on bus\n");
-
-            putsUart0("    read ADD REG          Read a byte from a device register\n");
-            putsUart0("    write ADD REG DATA    Write a byte to a device register\n");
-
-            putsUart0("    read ADD              Read a byte from a device\n");
-            putsUart0("    write ADD DATA        Write a byte to a device\n");
-        }
-        if (!valid)
-            putsUart0("Invalid command\n");
-    }
-
-}
-*/
