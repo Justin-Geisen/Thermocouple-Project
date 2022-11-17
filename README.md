@@ -12,3 +12,4 @@ Typically, a person would measure the voltage of two thermocouples, one with dry
 The TMP36 outputs a voltage linear to temperature. 
 
 It is 750mV at 25C and increase by 10mV / deg C.
+
