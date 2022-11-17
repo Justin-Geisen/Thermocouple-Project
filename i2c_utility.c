@@ -91,50 +91,6 @@ uint8_t asciiToUint8(const char str[])
     return data;
 }
 
-
-
-float readTmp()
-{
-    uint8_t currentConfig[20];
-    uint8_t newConfig[20];
-    uint8_t dataOut[20];
-    float decodedTmp = 0;
-
-    // read TMP 36
-
-    readI2c0Registers(0x48, 0x1, currentConfig, 2);
-
-    newConfig[1] = currentConfig[1];
-
-    // configure mux to AIN 0 positive
-    newConfig[0] = currentConfig[0] & ~(0x7 << 4);
-    newConfig[0] |= 64;
-
-    // configure pga to 2.048 (default value)
-    newConfig[0] &= ~(0x7 << 1);
-    newConfig[0] |= 1 << 2;
-
-    // write the new configuration to the adc register
-    writeI2c0Registers(0x48, 0x1, newConfig, 2);
-
-    waitMicrosecond(10000);
-
-
-    // read the raw output
-    readI2c0Registers(0x48, 0x0, dataOut, 2);
-
-    float rawTmp = dataOut[1] + (dataOut[0] << 8);
-
-    // convert the raw output to mV
-    rawTmp = rawTmp / 32768 * 2.048 * 1000;
-
-    decodedTmp = (rawTmp - 750) / 10 + 25;
-
-
-    return decodedTmp;
-
-}
-
 //-----------------------------------------------------------------------------
 // Main
 //-----------------------------------------------------------------------------
@@ -170,10 +126,6 @@ int main(void)
         setUart0BaudRate(115200, 40e6);
 
         putsUart0("I2C0 Utility\n");
-
-
-        readTmp();
-
 
         uint8_t currentConfig[20];
         uint8_t newConfig[20];
