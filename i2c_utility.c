@@ -28,11 +28,11 @@
 #include <stdbool.h>
 #include <string.h>
 #include <ctype.h>
-#include "JLib/tm4c123gh6pm.h"
-#include "JLib/clock.h"
-#include "JLib/uart0.h"
+#include "tm4c123gh6pm.h"
+#include "clock.h"
+#include "uart0.h"
 #include "i2c0.h"
-#include "JLib/wait.h"
+#include "wait.h"
 
 
 /*
