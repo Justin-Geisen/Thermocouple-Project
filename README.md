@@ -1,4 +1,4 @@
-# Thermocouple-Project
+# Thermocouple Project
 
 ## Items
 * Thermocouple Type K 
