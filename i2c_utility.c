@@ -124,13 +124,12 @@ int main(void)
         // Setup UART0 baud rate
         setUart0BaudRate(115200, 40e6);
 
-        putsUart0("I2C0 Utility\n");
+        putsUart0("\n\nThermocouple Serial Start\n");
 
         uint8_t currentConfig[20];
-        uint8_t newConfig[20];
+        uint8_t newConfig[20];        
         uint8_t dataOut[20];
         float decodedTmp = 0;
-
         float tmpMv = 0;
         float thermoMv = 0;
 
